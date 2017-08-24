@@ -182,5 +182,7 @@ let t ~args = object (self)
     printf "<div class='xaxis'></div>";
     printf "</div>";
     printf "<div id='table'></div>";
+    printf "<div id='graph1' class='chart'></div>"
+    printf "<div id='multi_graph' class='chart'></div>";
     self#include_javascript;
 end
