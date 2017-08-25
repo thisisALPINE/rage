@@ -250,10 +250,7 @@ SimpleGraph.prototype.datapoint_drag = function(index) { //update points positio
     registerKeyboardHandler(self.keydown());
     document.onselectstart = function() { return false; };
     self.selected = self.dragged = d;
-    self.update(0);
-    self.update(1); 
-    self.update(2); 
-    
+    self.update();  
   }
 };
 
@@ -265,9 +262,7 @@ SimpleGraph.prototype.mousemove = function(index) {
     
     if (self.dragged) {
      // self.dragged.y = self.y.invert(Math.max(0, Math.min(self.size.height, p[1])));
-      self.update(0);
-      self.update(1); 
-      self.update(2); 
+      self.update();
     };
     if (!isNaN(self.downx)) {
       d3.select('body').style("cursor", "ew-resize");
@@ -423,9 +418,7 @@ SimpleGraph.prototype.redraw = function() {
 
     gy.exit().remove();
     self.plot.call(d3.behavior.zoom().x(self.x).y(self.y).on("zoom", self.redraw()));
-    self.update(0);
-    self.update(1);
-    self.update(2);      
+    self.update();      
   }  
 }
 
