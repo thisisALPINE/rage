@@ -118,7 +118,8 @@ SimpleGraph = function(elemid, name, options, series) {
       .enter()
       .append("path")
           .attr("class", "line")
-          .attr("stroke-width", 2)
+	  .attr("fill", "none") 
+          .attr("stroke-width", 0)
           .attr("stroke", function(d) { console.log("color="+self.color(d.color)); return self.color(d.color) })
           .attr("d", function(d) { console.log("d.data"); console.log(d); return self.line(d.data)} )
 
