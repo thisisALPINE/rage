@@ -76,9 +76,6 @@ SimpleGraph = function(elemid, name, options, series) {
 
   //this.dragged = this.selected = null;
 
-  //this.line = d3.svg.line()
-  //    .x(function(d, i) { return this.x(this.points[i].x); })
-  //    .y(function(d, i) { return this.y(this.points[i].y); });
   this.line = d3.svg.line()
       .x(function(d, i) { return self.x(d[0]); })
       .y(function(d, i) { return self.y(d[1]); });
@@ -104,15 +101,11 @@ SimpleGraph = function(elemid, name, options, series) {
       //.on("mousedown.drag", self.plot_drag())
       //.on("touchstart.drag", self.plot_drag())
 
-      //for (var i=0; i < points_array.length; i++) {	
 
       this.plot.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.redraw()));
 
-      //}
 
-//}
 
-//  for (var i=0; i < window.points_array.length; i++) {
 
   this.vis.append("svg")
       .attr("top", 0)
@@ -171,35 +164,8 @@ SimpleGraph = function(elemid, name, options, series) {
 
 // SimpleGraph methods
 
-
-//SimpleGraph.prototype.plot_drag = function() {
-//  var self = this;
-//  return function() {
-//    registerKeyboardHandler(self.keydown());
-//    d3.select('body').style("cursor", "move");
-//    if (d3.event.altKey) {
-//      var p = d3.svg.mouse(self.vis.node());
-//      var newpoint = {};
-//      newpoint.x = self.x.invert(Math.max(0, Math.min(self.size.width,  p[0])));
-//      newpoint.y = self.y.invert(Math.max(0, Math.min(self.size.height, p[1])));
-//      self.points.push(newpoint);
-//      self.points.sort(function(a, b) {
-//        if (a.x < b.x) { return -1 };
-//        if (a.x > b.x) { return  1 };
-//        return 0
-//      });
-//      self.selected = newpoint;
-//      self.update();
-//      d3.event.preventDefault();
-//      d3.event.stopPropagation();
-//    }    
-//  }
-//};
-
-SimpleGraph.prototype.update = function(index) {
+SimpleGraph.prototype.update = function() {
   var self = this; 
-
-//  for (var i=0; i < window.points_array.length; i++) {
 
   //var lines = this.vis.select("path").attr("d", this.line(this.series));
   var lines = this.vis
