@@ -52,11 +52,11 @@ SimpleGraph = function(elemid, name, options, series) {
   this.options = options || {};
   this.options.xmax = options.xmax || 30;
   this.options.xmin = options.xmin || 0;
-  this.options.ymax = options.ymax || 10;
+  this.options.ymax = options.ymax || 15;
   this.options.ymin = options.ymin || 0;
 
   this.padding = {
-     "top":    this.options.title  ? 40 : 20,
+     "top":    this.options.title  ? 30 : 20,
      "right":                 30,
      "bottom": this.options.xlabel ? 60 : 10,
      "left":   this.options.ylabel ? 70 : 45
