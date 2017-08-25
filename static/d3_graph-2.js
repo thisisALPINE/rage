@@ -1,26 +1,40 @@
 
-function d3_graph(graph, series, options) {
+function get_max_xy(series) {
 
-console.log("===1");
+  max_x = Math.max.apply(null, series.map(function(x) {return Math.max.apply(null, x.data.map(function(y){return y[0];   })); }));
+ 
+  max_y = Math.max.apply(null, series.map(function(x) {return Math.max.apply(null, x.data.map(function(y){return y[1];
+})); })); 
+ 
+  var xy = [max_x, max_y]; 
+  return xy; 
 
+}
+
+
+function d3_graph(graph, series, options, name="default") {
+
+xaxis_label = options.xaxis.axisLabel;  
+yaxis_label = $("span[class='som_name']").text(); 
+console.log(series);  
+console.log("SALVE SALVINO VICINO");  
 // keep only elements that contain useful information for the graph
 series = series.filter(function (x) {return !('lines' in x)});
 
 // sort x elements in each line
 series = series.map(function (x) {x.data.sort(function(a, b){return a[0]-b[0]}); return x})
 
+xyz = get_max_xy(series); //get max x and max y in the xyz array
 
 
-// console.log(series);  
- graph = new SimpleGraph("graph1", {
-          "xmax": 60, "xmin": 0,
-          "ymax": 40, "ymin": 0, 
+
+ graph = new SimpleGraph("graph1",name, {
+          "xmax": xyz[0], "xmin": 0,
+          "ymax": xyz[1], "ymin": 0, 
           "title": "Simple Graph1",
-          "xlabel": "X Axis",
-        "ylabel": "Y Axis"  
+          "xlabel": xaxis_label, 
+        "ylabel": yaxis_label  
         }, series);
-console.log("====");
-console.log(series);
 
 }; 
 
