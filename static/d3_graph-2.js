@@ -29,7 +29,7 @@ registerKeyboardHandler = function(callback) {
   d3.select(window).on("keydown", callback);  
 };
 
-SimpleGraph = function(elemid, options, series) {
+SimpleGraph = function(elemid, name, options, series) {
   var self = this;
   this.series = series; 
   this.chart = document.getElementById(elemid);
@@ -88,21 +88,13 @@ SimpleGraph = function(elemid, options, series) {
       yrange4 = yrange2 / 2,
       datacount = this.size.width/30;
 
-
-  //this.points_two = d3.range(datacount).map(function(i) {
-  //  return { x: series[4].data[i][0], y: series[4].data[i][1]};  
-  //}, self);
-
-  console.log("PAPAPAP" + series + "PAPAPAPA"); 
-
   this.vis = d3.select(this.chart).append("svg")
+      .attr("name_d3graph", name) 
       .attr("width",  this.cx)
       .attr("height", this.cy)
       .append("g")
         .attr("transform", "translate(" + this.padding.left + "," + this.padding.top + ")");
 
-//for (var i=0; i < points_array.length; i++) {
-//        cursor: move; }
 
   this.plot = this.vis.append("rect")
       .attr("width", this.size.width)
