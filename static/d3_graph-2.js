@@ -15,7 +15,9 @@ function get_max_xy(series) {
 function d3_graph(graph, series, options, name="default") {
 
 xaxis_label = options.xaxis.axisLabel;  
-yaxis_label = $("span[class='som_name']").text(); 
+yaxis_label = $("span[class='som_name']").text();
+
+$("[name_d3graph='default']").remove(); //remove the old svgs 
 console.log(series);  
 console.log("SALVE SALVINO VICINO");  
 // keep only elements that contain useful information for the graph
