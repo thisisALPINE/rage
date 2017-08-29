@@ -19,16 +19,15 @@ yaxis_label = $("span[class='som_name']").text();
 
 $("[name_d3graph='default']").remove(); //remove the old svgs 
 console.log(series);  
-console.log("SALVE SALVINO VICINO");  
+
 // keep only elements that contain useful information for the graph
+
 series = series.filter(function (x) {return !('lines' in x)});
 
-// sort x elements in each line
-series = series.map(function (x) {x.data.sort(function(a, b){return a[0]-b[0]}); return x})
+// sort x elements in each line/
+series = series.map(function (x) {x.data.sort(function(a, b){return a[0]-b[0]}); return x});  
 
-xyz = get_max_xy(series); //get max x and max y in the xyz array
-
-
+xyz = get_max_xy(series); //get max x and max y in the xyz array 
 
  graph = new SimpleGraph("graph1",name, {
           "xmax": xyz[0], "xmin": 0,
@@ -415,6 +414,7 @@ SimpleGraph.prototype.yaxis_drag = function(d) {
   }
 
 }; 
+ 
 
 
 
