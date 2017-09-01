@@ -182,6 +182,13 @@ SimpleGraph = function(elemid, name, options, series) {
 
 SimpleGraph.prototype.update = function() {
   var self = this; 
+  var clicked = true; 
+  var tt_div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("display", "inline")
+    .style("opacity", 0)
+    .style("width", "270px")
+    .style("height", "230px");  
 
   //var lines = this.vis.select("path").attr("d", this.line(this.series));
   var lines = this.vis
@@ -201,14 +208,72 @@ SimpleGraph.prototype.update = function() {
       .attr("class", function(d) { return d === self.selected ? "selected" : null; })
       .attr("cx",    function(d) { return self.x(d[0]); })
       .attr("cy",    function(d) { return self.y(d[1]); })
-      .attr("r", 3.0)
+      .attr("r", 5.0)
       .style("cursor", "ns-resize")
-      .style("fill", function(d) { return 'black'; });
+      .style("fill", function(d) { return 'green'; });
 
   circle
       .attr("class", function(d) { return d === self.selected ? "selected" : null; })
       .attr("cx",    function(d) { return self.x(d[0]); })
-      .attr("cy",    function(d) { return self.y(d[1]); });
+      .attr("cy",    function(d) { return self.y(d[1]); })
+      .on("mouseover", function(d) {
+ 
+ 		tt_div.transition()
+                   .duration(100)
+                   .style("opacity", 0.85)
+                   .style("left", (d3.event.pageX + 3) + "px")
+                   .style("top", (d3.event.pageY + 3) + "px");       
+		tt_div 
+			.html("<table class=\"center_item\">" + 
+				"<tr><td>" + "x" + "</td><td>" + "</td><td>" + d[0] + "</td></tr>" + 
+				"<tr><td>" + "y" + "</td><td>" + "</td><td>" + d[1] + "</td></tr>" + 
+				generate_metadata(d[2])); 
+
+            }) 
+
+      .on("click", function(d) {
+	
+	tt_div.style("opacity", 0.85); 
+
+}) 
+
+      .attr("label", function(d) {
+      
+      console.log(d); 
+      return d; }); 
+
+  tt_div
+
+	.on("mouseover", function(d) {
+
+	tt_div.style("opacity", 0.85); 
+})
+	.on("mouseout", function(d) {
+
+	tt_div.transition() 
+		.duration(800)
+		.style("opacity", 0); 
+
+});
+
+function generate_metadata(metadata) {
+    
+    //var body = "<div class=\"tooltip\" style=\"display:inline; opacity:0; width:200px; height:130px\">"; 
+    var body = ""; 
+    for (var i in metadata) {
+      var kv = metadata[i];
+
+      //body += i + " --> " + kv + "<br/>"; 
+
+	body += "<tr><td>" + i + "</td><td>" + "</td>" + "<td>" + kv + "</td></tr>";  
+
+    }
+    body += "</table>"; 
+    console.log(body); 
+    return body;
+  } 
+
+ 
 
   circle.exit().remove();
 
