@@ -300,7 +300,6 @@ SimpleGraph.prototype.update = function() {
 
       .attr("label", function(d) {
       
-      console.log(d); 
       return d; }); 
 
   tt_div
@@ -312,25 +311,21 @@ SimpleGraph.prototype.update = function() {
 	.on("mouseout", function(d) {
 
 	tt_div.transition() 
-		.duration(800)
+		.duration(500)
 		.style("opacity", 0); 
 
 });
 
 function generate_metadata(metadata) {
     
-    //var body = "<div class=\"tooltip\" style=\"display:inline; opacity:0; width:200px; height:130px\">"; 
     var body = ""; 
     for (var i in metadata) {
       var kv = metadata[i];
 
-      //body += i + " --> " + kv + "<br/>"; 
-
 	body += "<tr><td>" + i + "</td><td>" + "</td>" + "<td>" + kv + "</td></tr>";  
-
     }
+
     body += "</table>"; 
-    console.log(body); 
     return body;
   } 
 
