@@ -146,7 +146,7 @@ SimpleGraph = function(elemid, name, options, series) {
   // drag y-axis logic
   this.downy = Math.NaN;
 
-    this.color = colors(series.length); 
+    this.color = colors(series.length);
 
   //this.dragged = this.selected = null;
 
@@ -435,11 +435,53 @@ SimpleGraph.prototype.mouseup = function() {
 //  }
 //};
 
+
 SimpleGraph.prototype.redraw = function() {
+
   var self = this;
+  
+  $("[class='tooltip']").remove();
+
+  $("div[id='legend_container']").remove();
+
+  d3.select("#graph1")
+	.append("div")
+	.attr("id", "legend_container")
+	.attr("width", "200px")
+	.attr("height", "50px")
+
+  d3.select("#legend_container")
+	.append("table")
+	.attr("id", "legend_table")
+	.attr("cellspacing", "0.5em");
+
+
+  for (var i=0; i < self.series.length; i++) {	
+		
+		var table_tr = d3.select("#legend_table").append("tr");  
+		table_tr.append("td").attr("style", function(d) {return "background-color:" + self.color[self.series[i].color] + "; width:2em";});
+
+		table_tr.append("td").attr("class", "a30x100").append("div")
+			
+			.text(self.series[i].label);
+			
+		
+}
+
+  if (typeof(this.o.x_labels) != "undefined") {
+
+    var fx_label = function(d) { return d[1]; };
+
+  } else {
+
+	//var fx_label = self.x.tickFormat(get_xs(self.series).size);
+	var fx_label = function(d) { return self.x.tickFormat(10)(d[0]) };
+
+  }
+
   return function() {
-    var tx = function(d) { 
-      return "translate(" + self.x(d) + ",0)"; 
+    var tx = function(d) {
+      return "translate(" + self.x(d[0]) +  ",0)"; 
     },
     ty = function(d) { 
       return "translate(0," + self.y(d) + ")";
@@ -447,14 +489,26 @@ SimpleGraph.prototype.redraw = function() {
     stroke = function(d) { 
       return d ? "#ccc" : "#666"; 
     },
-    fx = self.x.tickFormat(10),
+
+//    fx = self.x.tickFormat(10)(d[0]),
+    fx = fx_label, 
     fy = self.y.tickFormat(10);
 
-    // Regenerate x-ticks…
-    var gx = self.vis.selectAll("g.x")
-        .data(self.x.ticks(10), String)
-        .attr("transform", tx);
+	var count = 0; 
 
+    // Regenerate x-ticks…
+    var xs = get_xs(self.series);  
+    var gx = self.vis.selectAll("g.x")
+        .data(function(d) {
+			xs_ary = Array.from(xs.values());
+			//a =  zip(self.x.ticks(xs.size),zip(xs_ary,self.o.x_labels));
+			if (typeof(self.o.x_labels) != "undefined")
+				a =  zip(xs_ary,self.o.x_labels);
+			else a = zip(self.x.ticks(xs.size),self.x.ticks(xs.size))
+			return a;
+		}, String)
+
+        .attr("transform", tx); 
     gx.select("text")
         .text(fx);
 
