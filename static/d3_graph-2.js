@@ -1,3 +1,12 @@
+function zip(a, b) {
+
+return a.map(function (e, i) {
+    return [e, b[e]];
+});
+
+
+}
+
 
 function get_max_xy(series) {
 
@@ -8,6 +17,15 @@ function get_max_xy(series) {
  
   var xy = [max_x, max_y]; 
   return xy; 
+
+}
+
+function get_xs(series, args=null) {
+
+var my_set = new Set( 
+([].concat.apply([], series.map(function (d) { return d.data; }))).map(function(xy) {return xy[0]; } 
+)); 
+return my_set; 
 
 }
 
@@ -96,7 +114,7 @@ xyz = get_max_xy(series); //get max x and max y in the xyz array
           "title": "Simple Graph1",
           "xlabel": xaxis_label, 
         "ylabel": yaxis_label  
-        }, series);
+        }, series, o);
 
 }; 
 
@@ -105,8 +123,10 @@ registerKeyboardHandler = function(callback) {
   d3.select(window).on("keydown", callback);  
 };
 
-SimpleGraph = function(elemid, name, options, series) {
+SimpleGraph = function(elemid, name, options, series, o) {
   var self = this;
+  this.o = o; 
+ 
   this.series = series; 
   this.chart = document.getElementById(elemid);
   this.cx = this.chart.clientWidth;
