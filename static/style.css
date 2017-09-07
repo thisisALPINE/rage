@@ -290,3 +290,69 @@ a {
   margin:auto;
   width:100%;
 }
+
+.chart {
+        background-color: #F7F2C5;
+        width: 960px;
+        height: 500px; }
+
+circle {
+        circle.selected {
+          fill: #ff7f0e;
+          stroke: #ff7f0e; }
+        circle:hover {
+          fill: #ff7f0e;
+          stroke: #707f0e; }
+        circle.selected:hover {
+          fill: #ff7f0e;
+          stroke: #ff7f0e; }
+
+#legend_container {
+
+width:100px; 
+height:50px;
+
+}
+
+#legend_table {
+
+position:relative;
+
+}
+
+td {
+ 
+display:inline;
+
+}
+
+.svg_legend {
+
+width:1em; 
+height:1em;
+
+}
+
+.tooltip_d3 {
+    border-color: black;
+    position: absolute;
+    text-align: center;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: black;
+    border: 0px;
+    border-radius: 8px;
+}
+
+.a30x100
+{
+
+    width:960px; 
+    height:50px; 
+    white-space: initial;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    word-wrap:break-word;
+
+}
+ 
