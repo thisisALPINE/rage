@@ -1,3 +1,27 @@
+$( window ).load(function() {
+  $("#graph1").hide();
+  $("#graph1").css("background-color", "white");
+});
+
+function change_graph() {
+
+	var sel_value = $("#graph_option").val();
+
+	if (sel_value == "d3") {
+		$(".graph_container").css("display", "none"); 
+		$("#graph1").css("display", "block"); 		
+
+	}
+	else if (sel_value == "flot") {
+		
+		$("#graph1").css("display", "none"); 
+		$(".graph_container").css("display", "block"); 
+	
+	}
+	
+}
+
+
 function zip(a, b) {
 
 return a.map(function (e, i) {
@@ -124,9 +148,18 @@ registerKeyboardHandler = function(callback) {
 };
 
 SimpleGraph = function(elemid, name, options, series, o) {
+
+
+  if ($("#graph1").is(":hidden")) {     //if you click on the btn "redraw" while #graph1 is hidden, it won't redraw #graph1. Then if redraw is called while #graph1 
+			                //is hidden, it first show, redraw and then hide again at the end of this function
+	$("#graph1").show();
+	var will_hide = 1; 
+
+} 
+
   var self = this;
   this.o = o; 
- 
+  this.color = colors(series.length);
   this.series = series; 
   this.chart = document.getElementById(elemid);
   this.cx = this.chart.clientWidth;
@@ -254,6 +287,11 @@ SimpleGraph = function(elemid, name, options, series, o) {
       .on("touchend.drag",  self.mouseup());
 
   this.redraw()();
+
+  if (will_hide == 1) 
+  $("#graph1").hide(); 
+  will_hide = 0; 
+
 };
   
 
@@ -438,32 +476,16 @@ SimpleGraph.prototype.mouseup = function() {
   }
 }
 
-// SimpleGraph.prototype.keydown = function() {
-//  var self = this;
-//  return function() {
-//    if (!self.selected) return;
-//    switch (d3.event.keyCode) {
-//      case 8: // backspace
-//      case 46: { // delete
-//        var i = self.points.indexOf(self.selected);
-//        self.points.splice(i, 1);
-//        self.selected = self.points.length ? self.points[i > 0 ? i - 1 : 0] : null;
-//        self.update();
-//        break;
-//      }
-//    }
-//  }
-//};
-
-
 SimpleGraph.prototype.redraw = function() {
+
+  var will_hide = 0; 
 
   var self = this;
   
   $("[class='tooltip']").remove();
 
   $("div[id='legend_container']").remove();
-
+  
   d3.select("#graph1")
 	.append("div")
 	.attr("id", "legend_container")
@@ -588,7 +610,15 @@ SimpleGraph.prototype.redraw = function() {
     gy.exit().remove();
     self.plot.call(d3.behavior.zoom().x(self.x).y(self.y).on("zoom", self.redraw()));
     self.update();      
-  }  
+  }
+
+	if (will_hide == 1) {
+
+	$("#graph1").hide();
+	will_hide = 0;
+
+}
+  
 }
 
 SimpleGraph.prototype.xaxis_drag = function() {
