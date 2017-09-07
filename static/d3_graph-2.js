@@ -537,10 +537,11 @@ SimpleGraph.prototype.redraw = function() {
   for (var i=0; i < self.series.length; i++) {	
 		
 		var table_tr = d3.select("#legend_table").append("tr");  
-		table_tr.append("td").attr("style", function(d) {return "background-color:" + self.color[self.series[i].color] + "; width:4em";});
+		table_tr.append("td").attr("style", function(d) {return "background-color:" + self.color[self.series[i].color] + ";";}).append("div").attr("style", "width:2em");
 
 		table_tr.append("td").attr("class", "a30x100").append("div")
-			
+
+			.attr("style", "width:960px; height:50px; white-space: initial;overflow: hidden;text-overflow: ellipsis; word-wrap:break-word")
 			.text(self.series[i].label);
 			
 		
