@@ -140,9 +140,6 @@ xyz = get_max_xy(series); //get max x and max y in the xyz array
           "xlabel": xaxis_label, 
         "ylabel": yaxis_label  
         }, series, o);
-
-$("#graph1").css("height", "650px");
-
 }; 
 
 registerKeyboardHandler = function(callback) {
