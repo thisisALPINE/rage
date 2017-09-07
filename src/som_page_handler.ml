@@ -175,14 +175,13 @@ let t ~args = object (self)
     printf "%s'toggle_filters' value='Hide Configuration' />" submit_prefix;
     printf "%s'stop_plotting' value='Stop Plotting' />" submit_prefix;
     printf "%s'redraw' value='Redraw' />" submit_prefix;
+    printf "<select id='graph_option' onchange='change_graph()'><option value='flot'>flot graph</option><option value='d3'>d3 graph</option></select>";
     printf "<img id='progress_img' src='progress.gif' />\n";
     printf "<br /><div class='graph_container'>";
     printf "<div class='yaxis'></div>";
     printf "<div id='graph' style='width: 1000px; height: 600px' class='graph'></div>";
     printf "<div class='xaxis'></div>";
     printf "</div>";
-    printf "<div id='table'></div>";
-    printf "<div id='graph1' class='chart'></div>"
-    printf "<div id='multi_graph' class='chart'></div>";
+    printf "<div id='graph1' class='chart'></div>";
     self#include_javascript;
 end

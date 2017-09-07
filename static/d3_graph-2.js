@@ -132,6 +132,8 @@ series = series.filter(function (x) {return !('lines' in x)});
 series = series.map(function (x) {x.data.sort(function(a, b){return a[0]-b[0]}); return x});  
 xyz = get_max_xy(series); //get max x and max y in the xyz array 
 
+
+
  graph = new SimpleGraph("graph1",name, {
           "xmax": xyz[0], "xmin": 0,
           "ymax": xyz[1], "ymin": 0, 
@@ -199,8 +201,6 @@ SimpleGraph = function(elemid, name, options, series, o) {
   // drag y-axis logic
   this.downy = Math.NaN;
 
-    this.color = colors(series.length);
-
   //this.dragged = this.selected = null;
 
   this.line = d3.svg.line()
@@ -232,8 +232,6 @@ SimpleGraph = function(elemid, name, options, series, o) {
       this.plot.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.redraw()));
 
 
-
-
   this.vis.append("svg")
       .attr("top", 0)
       .attr("left", 0)
@@ -248,17 +246,9 @@ SimpleGraph = function(elemid, name, options, series, o) {
 	  .attr("fill", "none") 
           .attr("stroke-width", 0)
           .attr("stroke", function(d) { return self.color[d.color] })
-          .attr("d", function(d) { return self.line(d.data)} )
+          .attr("d", function(d) { return self.line(d.data)} )	
 
-  // add Chart Title
-  if (this.options.title) {
-    this.vis.append("text")
-        .attr("class", "axis")
-        .text(this.options.title)
-        .attr("x", this.size.width/2)
-        .attr("dy","-0.8em")
-        .style("text-anchor","middle");
-  }
+	  // add Chart Title
 
   // Add the x-axis label
   if (this.options.xlabel) {
@@ -302,23 +292,19 @@ SimpleGraph.prototype.update = function() {
   var clicked = true; 
   var tt_div = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("display", "inline")
+    .style("display", "none")
     .style("opacity", 0)
     .style("width", "270px")
-    .style("height", "230px");  
+    .style("height", "200px");
 
-  //var lines = this.vis.select("path").attr("d", this.line(this.series));
   var lines = this.vis
       .selectAll(".line")
       .data(this.series)
       .attr("stroke-width", 2)
-      .attr("d", function(d) { return self.line(d.data)} )
+      .attr("d", function(d) { return self.line(d.data)}); 
 
-  //var circle = this.vis.select("svg").selectAll("circle")
-  //    .data(this.series, function(d) { return d.data; });
 
   var circle = this.vis.select("svg").selectAll("circle")
-      //.data(this.series[0].data); //map(function (d) { return d.data;}) );
       .data([].concat.apply([], this.series.map(function (d) {
         return d.data.map(function(pos){ pos[3] = d.color; return pos;});
       })))
@@ -516,7 +502,6 @@ SimpleGraph.prototype.redraw = function() {
 
   } else {
 
-	//var fx_label = self.x.tickFormat(get_xs(self.series).size);
 	var fx_label = function(d) { return self.x.tickFormat(10)(d[0]) };
 
   }
@@ -532,7 +517,6 @@ SimpleGraph.prototype.redraw = function() {
       return d ? "#ccc" : "#666"; 
     },
 
-//    fx = self.x.tickFormat(10)(d[0]),
     fx = fx_label, 
     fy = self.y.tickFormat(10);
 
@@ -543,7 +527,6 @@ SimpleGraph.prototype.redraw = function() {
     var gx = self.vis.selectAll("g.x")
         .data(function(d) {
 			xs_ary = Array.from(xs.values());
-			//a =  zip(self.x.ticks(xs.size),zip(xs_ary,self.o.x_labels));
 			if (typeof(self.o.x_labels) != "undefined")
 				a =  zip(xs_ary,self.o.x_labels);
 			else a = zip(self.x.ticks(xs.size),self.x.ticks(xs.size))
@@ -573,8 +556,11 @@ SimpleGraph.prototype.redraw = function() {
         .on("mouseover", function(d) { d3.select(this).style("font-weight", "bold");})
         .on("mouseout",  function(d) { d3.select(this).style("font-weight", "normal");})
         .on("mousedown.drag",  self.xaxis_drag())
-        .on("touchstart.drag", self.xaxis_drag());
-
+        .on("touchstart.drag", self.xaxis_drag()); 
+//	.attr("transform", function(d) {
+//                return "rotate(20)" 
+//                }); 
+ 
     gx.exit().remove();
 
     // Regenerate y-ticks…
@@ -640,6 +626,3 @@ SimpleGraph.prototype.yaxis_drag = function(d) {
 
 }; 
  
-
-
-
