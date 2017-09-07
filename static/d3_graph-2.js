@@ -142,6 +142,8 @@ xyz = get_max_xy(series); //get max x and max y in the xyz array
         "ylabel": yaxis_label  
         }, series, o);
 
+$("#graph1").css("height", "650px");
+
 }; 
 
 registerKeyboardHandler = function(callback) {
@@ -216,11 +218,12 @@ SimpleGraph = function(elemid, name, options, series, o) {
       .attr("name_d3graph", name) 
       .attr("width",  this.cx)
       .attr("height", this.cy)
+      .attr("style", "background-color:white")
       .append("g")
         .attr("transform", "translate(" + this.padding.left + "," + this.padding.top + ")");
 
-
   this.plot = this.vis.append("rect")
+      .attr("id", "graph1_rect")
       .attr("width", this.size.width)
       .attr("height", this.size.height)
       .style("fill", "#fff")
@@ -315,50 +318,99 @@ SimpleGraph.prototype.update = function() {
       .attr("cy",    function(d) { return self.y(d[1]); })
       .attr("r", 5.0)
       .style("cursor", "ns-resize")
-      .style("fill", function(d) { return self.color[d[3]] });
+      .style("fill", function(d) { return self.color[d[3]]; });
+	
+  var is_img = 0; 
 
   circle
       .attr("class", function(d) { return d === self.selected ? "selected" : null; })
       .attr("cx",    function(d) { return self.x(d[0]); })
       .attr("cy",    function(d) { return self.y(d[1]); })
       .on("mouseover", function(d) {
- 
  		tt_div.transition()
                    .duration(100)
+		   .style("display", "inline")
                    .style("opacity", 0.85)
                    .style("left", (d3.event.pageX + 3) + "px")
-                   .style("top", (d3.event.pageY + 3) + "px");       
+                   .style("top", (d3.event.pageY + 3) + "px");      
+		
 		tt_div 
 			.html("<table class=\"center_item\">" + 
 				"<tr><td>" + "x" + "</td><td>" + "</td><td>" + d[0] + "</td></tr>" + 
 				"<tr><td>" + "y" + "</td><td>" + "</td><td>" + d[1] + "</td></tr>" + 
-				generate_metadata(d[2])); 
+				generate_metadata(d[2]));
+		tt_div 
+			.style("background-color", function(n) { return self.color[d[3]]; });
+		totalHeight = 0;
+		totalWidth = 0;
+		$(".tooltip").children("table").children("tbody").children("tr").each(function(i) {
+		totalHeight= totalHeight + $(this).height(); 
+		});
+		totalWidth = $(".tooltip").children("table").children("tbody").children("tr").width();
 
-            }) 
+		if (totalHeight > $(".tooltip").height() && totalHeight != 0) { //adjust tooltip height if there are many elements
+		
+		$(".tooltip").css("height", (totalHeight + 40) + "px");
+
+		}
+		if (totalWidth > $(".tooltip").width() && totalWidth != 0) {
+
+		$(".tooltip").css("width", (totalWidth + 20) + "px");
+
+		}
+
+		
+		if (totalHeight < $(".tooltip").height() && totalHeight != 0) { 
+		
+		$(".tooltip").css("height", (totalHeight + 70) + "px");
+
+		}
+		if (totalWidth < $(".tooltip").width() && totalWidth != 0) {
+
+		$(".tooltip").css("width", (totalWidth + 20) + "px");
+
+		}
+
+		tt_div.on("click", function(d) {
+
+				
+			var close_img = tt_div.append("div");
+			is_img = 1; 
+			close_img.html("<img src='close.png'>").on("click", function(d) {
+
+				tt_div.style("opacity", 0);
+				is_img = 0; 
+				
+			}); 
+
+		}) 
+
+ })
 
       .on("click", function(d) {
 	
-	tt_div.style("opacity", 0.85); 
+	tt_div.style("opacity", 0.85)
+	var close_img = tt_div.append("div");
+	is_img = 1; 
+	close_img.html("<img src='close.png'>").on("click", function(d) {
 
-}) 
+		tt_div.style("opacity", 0);
+		is_img = 0; 
+				
+	}); 
 
-      .attr("label", function(d) {
-      
-      return d; }); 
-
-  tt_div
-
-	.on("mouseover", function(d) {
-
-	tt_div.style("opacity", 0.85); 
 })
+
+
 	.on("mouseout", function(d) {
+		
+		if (is_img == 0) {
+		tt_div.style("opacity", 0);
+		}
 
-	tt_div.transition() 
-		.duration(500)
-		.style("opacity", 0); 
+	}); 
 
-});
+
 
 function generate_metadata(metadata) {
     
