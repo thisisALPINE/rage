@@ -97,13 +97,19 @@ form[name="optionsForm"] option:checked {
   border: 0;
 }
 .tooltip {
+  border-radius: 20px;
   position: absolute;
   display: none;
-  border: 1px solid #fdd;
-  padding: 2px;
-  background-color: #fee;
-  opacity: 0.60;
+  border: 2px solid black;
+  padding: 5px;
+  background-color: orange;
+  border-color: black; 
+  border-radius: 8px;
+  text-align:center; 
+
 }
+
+
 .tooltip table {
   float: left;
 }
@@ -307,52 +313,3 @@ circle {
           fill: #ff7f0e;
           stroke: #ff7f0e; }
 
-#legend_container {
-
-width:100px; 
-height:50px;
-
-}
-
-#legend_table {
-
-position:relative;
-
-}
-
-td {
- 
-display:inline;
-
-}
-
-.svg_legend {
-
-width:1em; 
-height:1em;
-
-}
-
-.tooltip_d3 {
-    border-color: black;
-    position: absolute;
-    text-align: center;
-    padding: 2px;
-    font: 12px sans-serif;
-    background: black;
-    border: 0px;
-    border-radius: 8px;
-}
-
-.a30x100
-{
-
-    width:960px; 
-    height:50px; 
-    white-space: initial;
-    overflow: hidden;
-    text-overflow: ellipsis; 
-    word-wrap:break-word;
-
-}
- 
