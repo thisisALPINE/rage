@@ -538,7 +538,7 @@ SimpleGraph.prototype.redraw = function() {
 
 		table_tr.append("td").attr("class", "a30x100").append("div")
 
-			.attr("style", "width:960px; height:50px; white-space: initial;overflow: hidden;text-overflow: ellipsis; word-wrap:break-word")
+			.attr("style", "width:960px; white-space: initial;overflow: hidden;text-overflow: ellipsis; word-wrap:break-word")
 			.text(self.series[i].label);
 			
 		
