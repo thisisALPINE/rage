@@ -115,15 +115,14 @@ function colors(neededColors) {
 
 	return colors; 
 
+     }
 
-        }
+function d3_graph(graph, series, options, o, name="default") {
 
-function d3_graph(graph, series, options, name="default") {
- 
 xaxis_label = options.xaxis.axisLabel;  
 yaxis_label = $("span[class='som_name']").text();
-
-$("[name_d3graph='default']").remove(); //remove the old svgs 
+$("[name_d3graph='default']").remove(); //remove the old svgs
+$("[class='tooltip']").remove();  
 
 // keep only elements that contain useful information for the graph
 series = series.filter(function (x) {return !('lines' in x)});
@@ -533,13 +532,12 @@ SimpleGraph.prototype.redraw = function() {
   d3.select("#legend_container")
 	.append("table")
 	.attr("id", "legend_table")
-	.attr("cellspacing", "0.5em");
-
+	.attr("cellspacing", "9");
 
   for (var i=0; i < self.series.length; i++) {	
 		
 		var table_tr = d3.select("#legend_table").append("tr");  
-		table_tr.append("td").attr("style", function(d) {return "background-color:" + self.color[self.series[i].color] + "; width:2em";});
+		table_tr.append("td").attr("style", function(d) {return "background-color:" + self.color[self.series[i].color] + "; width:4em";});
 
 		table_tr.append("td").attr("class", "a30x100").append("div")
 			
